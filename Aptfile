@@ -1,2 +1,2 @@
 tesseract-ocr
-python-opencv
+python-opencv==4.5.3.56
