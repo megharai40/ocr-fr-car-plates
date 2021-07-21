@@ -1,2 +1,5 @@
 tesseract-ocr
-python-opencv==4.5.3.56
+libsm6
+libxrender1
+libfontconfig1
+libice6
