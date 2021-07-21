@@ -7,6 +7,8 @@ from PIL import Image
 
 pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
 
+!wget https://raw.githubusercontent.com/opencv/opencv/master/data/haarcascades/haarcascade_russian_plate_number.xml
+
 st.title("License Plate Recognition and Prediction ")
 img = st.sidebar.file_uploader("Choose an Image: ")
 if img is not None:
