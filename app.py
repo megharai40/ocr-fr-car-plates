@@ -5,6 +5,8 @@ import numpy as np
 
 from PIL import Image
 
+pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
+
 st.title("License Plate Recognition and Prediction ")
 img = st.sidebar.file_uploader("Choose an Image: ")
 if img is not None:
