@@ -18,7 +18,7 @@ if img is not None:
   img_cv = cv2.imread('out.jpg',0) # Getting Image in greyscale
   img_color = cv2.imread('out.jpg') #Getting image in color
   license_plate_model = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_russian_plate_number.xml")
-  plate_number1 = license_plate_model.detectMultiScale(img_cv,1.0499,20)
+  plate_number1 = license_plate_model.detectMultiScale(img_cv,1.04999,20)
 
   for (x,y,w,h) in plate_number1:
     roi = img_cv[y:y+h,x:x+w] #region of interest #Extracting plate 1st time
@@ -30,9 +30,7 @@ if img is not None:
 
   plate_imgcv = cv2.imread("License Plate.jpg")
 
-  plate_color = cv2.imread("License Plate Color.jpg")  #Color Image of Plate
-
-  plate_number2 = license_plate_model.detectMultiScale(plate_imgcv,1.009,20) #Extracting Plate 2nd time
+  plate_number2 = license_plate_model.detectMultiScale(plate_imgcv,1.0099,20) #Extracting Plate 2nd time
   for (x,y,w,h) in plate_number2:
     roi2 = plate_imgcv[y:y+h,x:x+w]
     cv2.imwrite("License Plate Final.jpg", roi2)
