@@ -14,15 +14,16 @@ if img is not None:
   st.image(img,caption = 'Uploaded Image')
 
   img_array = np.array(img_read)
-  cv2.imwrite('out.jpg', cv2.cvtColor(img_array, cv2.COLOR_RGB2BGR))
+  cv2.imwrite('out.jpg',img_array)
   img_cv = cv2.imread('out.jpg',0) # Getting Image in greyscale
   img_color = cv2.imread('out.jpg') #Getting image in color
-  license_plate_model = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_russian_plate_number.xml")
+  license_plate_model = cv2.CascadeClassifier('/content/haarcascade_russian_plate_number.xml')
   plate_number1 = license_plate_model.detectMultiScale(img_cv,1.0499,20)
 
   for (x,y,w,h) in plate_number1:
     roi = img_cv[y:y+h,x:x+w] #region of interest #Extracting plate 1st time
     roi_color = img_color[y:y+h,x:x+w]
+    cv2.rectangle(img_color,(x,y),(x+w,y+h),(0,255,0),2) #plate in box
 
   cv2.imwrite("License Plate.jpg", roi)
   cv2.imwrite("License Plate Color.jpg", roi_color) #Color image to be displayed
@@ -37,29 +38,20 @@ if img is not None:
     cv2.imwrite("License Plate Final.jpg", roi2)
 
   plate_img_final = Image.open('License Plate Final.jpg')
-  op = pytesseract.image_to_string(plate_img_final) #Extracting text
+  op = pytesseract.image_to_string(plate_img_final)
 
-  if op == ' \n\x0c': #If text extracted is blank
+  if op == ' \n\x0c': 
     d,roi_new_binary = cv2.threshold(roi2,126,255,cv2.THRESH_BINARY) #Converting Image to Binary b/w
     cv2.imwrite("License Plate Final(binary).jpg", roi_new_binary)
     plate_img_final = Image.open('License Plate Final(binary).jpg')
-    op = pytesseract.image_to_string(plate_img_final) #Extracting text from binary image
+    op = pytesseract.image_to_string(plate_img_final)
 
-  #Resizing color image to final image
-  plate_img_boxes = cv2.imread("License Plate Final.jpg")
-  h_big,w_big,d_big = plate_img_boxes.shape
-
-  boxes_bigger = cv2.resize(plate_color, (w_big,h_big))
-  boxes = pytesseract.image_to_boxes(plate_img_boxes)      #image to boxes
-
-  for b in boxes.splitlines():
-    b = b.split()
-    x1,y1,w1,h1 = int(b[1]),int(b[2]),int(b[3]),int(b[4])
-    cv2.rectangle(boxes_bigger,(x1,h_big-y1),(w_big,h_big-h1),(0,0,255),1) 
-
+  plate_display = cv2.imread("License Plate Color.jpg") #Image of Just Plate
+  
   if st.button('PREDICT'):
     if op == ' \n\x0c':
       st.write("Plate Not Detected. Try Another JPG")
     else:
       st.write(op)
-      st.image(boxes_bigger,caption = "Plate Image")
+      st.image(img_color,caption = "Plate Image")
+      st.image(plate_display)
