@@ -33,15 +33,15 @@ if img is not None:
   plate_number2 = license_plate_model.detectMultiScale(plate_imgcv,1.018,20) #Extracting Plate 2nd time
   for (x,y,w,h) in plate_number2:
     roi2 = plate_imgcv[y:y+h,x:x+w]
-    cv2.imwrite("License Plate Final.jpg", roi2)
+    cv2.imwrite("License Plate.jpg", roi2)
 
-  plate_img_final = Image.open('License Plate Final.jpg')
+  plate_img_final = Image.open("License Plate.jpg")
   op = pytesseract.image_to_string(plate_img_final)
 
   if op == ' \n\x0c': 
     d,roi_new_binary = cv2.threshold(roi2,126,255,cv2.THRESH_BINARY) #Converting Image to Binary b/w
-    cv2.imwrite("License Plate Final(binary).jpg", roi_new_binary)
-    plate_img_final = Image.open('License Plate Final(binary).jpg')
+    cv2.imwrite("License Plate.jpg", roi_new_binary)
+    plate_img_final = Image.open("License Plate.jpg")
     op = pytesseract.image_to_string(plate_img_final)
 
   plate_display = cv2.imread("License Plate Color.jpg") #Image of Just Plate
