@@ -30,7 +30,7 @@ if img is not None:
 
   plate_imgcv = cv2.imread("License Plate.jpg")
 
-  plate_number2 = license_plate_model.detectMultiScale(plate_imgcv,1.01,20) #Extracting Plate 2nd time
+  plate_number2 = license_plate_model.detectMultiScale(plate_imgcv,1.018,20) #Extracting Plate 2nd time
   for (x,y,w,h) in plate_number2:
     roi2 = plate_imgcv[y:y+h,x:x+w]
     cv2.imwrite("License Plate Final.jpg", roi2)
